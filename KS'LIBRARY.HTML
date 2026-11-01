@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kirtan's Library</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    color: white;
+    background: #080b20;
+    overflow-x: hidden;
+}
+
+/* 3D Animated Background */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, #6020ff66, transparent 35%),
+      radial-gradient(circle at 80% 70%, #00d9ff55, transparent 35%),
+      linear-gradient(135deg,#080b20,#11153a,#080b20);
+    z-index: -2;
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    perspective: 800px;
+    z-index: -1;
+}
+
+.cube {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #00eaff66;
+    box-shadow: 0 0 30px #00d9ff55,
+                inset 0 0 30px #7b2cff55;
+    animation: rotate 12s infinite linear;
+    transform-style: preserve-3d;
+}
+
+.cube:nth-child(1) {
+    top: 15%;
+    left: 10%;
+}
+
+.cube:nth-child(2) {
+    top: 65%;
+    left: 75%;
+    width: 150px;
+    height: 150px;
+    animation-duration: 18s;
+}
+
+.cube:nth-child(3) {
+    top: 40%;
+    left: 48%;
+    width: 60px;
+    height: 60px;
+    animation-duration: 9s;
+}
+
+@keyframes rotate {
+    from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    to { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 35px 15px;
+}
+
+header h1 {
+    font-size: clamp(32px, 6vw, 55px);
+    font-weight: 900;
+    letter-spacing: 5px;
+    background: linear-gradient(90deg,#00eaff,#a76bff,#ff4fd8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 35px #7a35ff66;
+}
+
+header p {
+    color: #aab9ff;
+    margin-top: 10px;
+    letter-spacing: 3px;
+}
+
+/* Main */
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Cards */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+    gap: 20px;
+    margin: 20px 0 30px;
+}
+
+.card {
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(145deg,#202956cc,#111735dd);
+    border: 1px solid #5d83ff66;
+    box-shadow: 8px 8px 25px #0008,
+                inset 2px 2px 10px #ffffff15;
+    transition: .4s;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 0 30px #00d9ff55;
+}
+
+.card h3 {
+    color: #a8b9ff;
+    font-size: 15px;
+}
+
+.card h2 {
+    font-size: 35px;
+    margin-top: 12px;
+    color: #00eaff;
+}
+
+/* Panel */
+.panel {
+    background: #111936dd;
+    border: 1px solid #526bba88;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 40px #0008,
+                inset 0 0 20px #ffffff08;
+    backdrop-filter: blur(15px);
+}
+
+.panel h2 {
+    margin-bottom: 20px;
+    color: #00eaff;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    background: #080f29;
+    border: 1px solid #536bb5;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+input:focus {
+    border-color: #00eaff;
+    box-shadow: 0 0 12px #00eaff66;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg,#176bff,#a32cff);
+    transition: .3s;
+    margin: 3px;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 18px #7b4dff;
+}
+
+.search {
+    margin-bottom: 15px;
+}
+
+/* Table */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,td {
+    padding: 15px;
+    border-bottom: 1px solid #ffffff22;
+    text-align: left;
+}
+
+th {
+    color: #00eaff;
+    background: #202c55;
+}
+
+tr:hover {
+    background: #ffffff0c;
+}
+
+.available {
+    color: #36ff9a;
+    font-weight: bold;
+}
+
+.issued {
+    color: #ffbc48;
+    font-weight: bold;
+}
+
+.delete {
+    background: #e63956;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #8e9cc5;
+}
+
+@media(max-width:600px) {
+    header h1 { letter-spacing: 2px; }
+    .panel { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+</div>
+
+<header>
+    <h1>KIRTAN'S LIBRARY</h1>
+    <p>✦ ADVANCED LIBRARY MANAGEMENT SYSTEM ✦</p>
+</header>
+
+<div class="container">
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>📚 TOTAL BOOKS</h3>
+            <h2 id="total">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>✅ AVAILABLE BOOKS</h3>
+            <h2 id="available">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>📖 ISSUED BOOKS</h3>
+            <h2 id="issued">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>👑 LIBRARY STATUS</h3>
+            <h2 style="font-size:22px">ACTIVE</h2>
+        </div>
+
+    </div>
+
+    <div class="panel">
+        <h2>➕ Add New Book</h2>
+
+        <input id="bookName" placeholder="Enter Book Name">
+        <input id="author" placeholder="Enter Author Name">
+        <input id="bookId" placeholder="Enter Book ID">
+
+        <button onclick="addBook()">+ ADD BOOK</button>
+    </div>
+
+    <div class="panel">
+        <h2>🔍 Search Library Books</h2>
+        <input class="search" id="search"
+        placeholder="Search by Book Name, Author or ID..."
+        oninput="showBooks()">
+
+        <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="bookList"></tbody>
+        </table>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <h3>✦ KIRTAN'S LIBRARY ✦</h3>
+    <p>Designed with Advanced 3D Technology</p>
+    <p>© 2026 All Rights Reserved</p>
+</footer>
+
+<script>
+
+let books = JSON.parse(localStorage.getItem("kirtanBooks")) || [];
+
+function saveData() {
+    localStorage.setItem("kirtanBooks", JSON.stringify(books));
+}
+
+function addBook() {
+
+    let name = document.getElementById("bookName").value.trim();
+    let author = document.getElementById("author").value.trim();
+    let id = document.getElementById("bookId").value.trim();
+
+    if(!name || !author || !id) {
+        alert("Please fill all details!");
+        return;
+    }
+
+    if(books.some(book => book.id.toLowerCase() === id.toLowerCase())) {
+        alert("This Book ID already exists!");
+        return;
+    }
+
+    books.push({
+        id: id,
+        name: name,
+        author: author,
+        status: "Available"
+    });
+
+    saveData();
+
+    document.getElementById("bookName").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("bookId").value = "";
+
+    showBooks();
+}
+
+function issueBook(id) {
+
+    let book = books.find(b => b.id === id);
+
+    if(book && book.status === "Available") {
+        book.status = "Issued";
+        saveData();
+        showBooks();
+    }
+}
+
+function returnBook(id) {
+
+    let book = books.find(b => b.id === id);
+
+    if(book && book.status === "Issued") {
+        book.status = "Available";
+        saveData();
+        showBooks();
+    }
+}
+
+function deleteBook(id) {
+
+    if(confirm("Are you sure you want to delete this book?")) {
+        books = books.filter(b => b.id !== id);
+        saveData();
+        showBooks();
+    }
+}
+
+function showBooks() {
+
+    let list = document.getElementById("bookList");
+    let search = document.getElementById("search").value.toLowerCase();
+
+    list.innerHTML = "";
+
+    let filtered = books.filter(b =>
+        b.name.toLowerCase().includes(search) ||
+        b.author.toLowerCase().includes(search) ||
+        b.id.toLowerCase().includes(search)
+    );
+
+    filtered.forEach(book => {
+
+        let row = document.createElement("tr");
+
+        let cells = [book.id, book.name, book.author];
+
+        cells.forEach(value => {
+            let td = document.createElement("td");
+            td.textContent = value;
+            row.appendChild(td);
+        });
+
+        let status = document.createElement("td");
+        status.textContent = book.status;
+        status.className = book.status === "Available" ? "available" : "issued";
+        row.appendChild(status);
+
+        let action = document.createElement("td");
+
+        let btn = document.createElement("button");
+
+        btn.textContent = book.status === "Available" ? "ISSUE" : "RETURN";
+
+        btn.onclick = () => {
+            book.status === "Available"
+            ? issueBook(book.id)
+            : returnBook(book.id);
+        };
+
+        action.appendChild(btn);
+
+        let del = document.createElement("button");
+        del.textContent = "DELETE";
+        del.className = "delete";
+        del.onclick = () => deleteBook(book.id);
+
+        action.appendChild(del);
+        row.appendChild(action);
+
+        list.appendChild(row);
+    });
+
+    document.getElementById("total").textContent = books.length;
+
+    document.getElementById("available").textContent =
+        books.filter(b => b.status === "Available").length;
+
+    document.getElementById("issued").textContent =
+        books.filter(b => b.status === "Issued").length;
+}
+
+showBooks();
+
+</script>
+
+</body>
+</html>
